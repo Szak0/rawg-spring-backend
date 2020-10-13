@@ -9,7 +9,11 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class RawGAPIService {
-    public Games getAllGames(String pageNumber) {
+
+    @Value("${rawG.games.url}")
+    private String gamesURL;
+
+    public Games getAllGames(String pageNumber, String search) {
         RestTemplate template = new RestTemplate();
         ResponseEntity<Games> gamesResponseEntity = template.exchange("https://api.rawg.io/api/games?page=" + pageNumber,
                 HttpMethod.GET, null, Games.class);
