@@ -18,10 +18,11 @@ public class GamesController {
     @GetMapping("/api/games")
     @ResponseBody
     public Games getAllGames(@RequestParam(required = false) String page, String search, String ordering) {
-        if (search == null) {
-            search = "";
-        }
-
-        return apiService.getAllGames(Objects.requireNonNullElse(page, "1"), search, ordering);
+        return apiService
+                .getAllGames(
+                        Objects.requireNonNullElse(page, "1"),
+                        Objects.requireNonNullElse(search, ""),
+                        Objects.requireNonNullElse(ordering, "-rating")
+                );
     }
 }
