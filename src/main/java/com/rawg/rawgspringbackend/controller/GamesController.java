@@ -13,6 +13,8 @@ public class GamesController {
     @Autowired
     private RawGAPIService apiService;
 
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/api/games")
     @ResponseBody
     public Games getAllGames(@RequestParam(required = false) String page, String search, String ordering, String date, String page_size) {
