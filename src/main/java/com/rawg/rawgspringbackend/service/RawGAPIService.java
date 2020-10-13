@@ -10,17 +10,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class RawGAPIService {
 
     @Value("${rawG.games.url}")
     private String gamesURL;
 
-    public Games getAllGames(String pageNumber, String search) {
+    public Games getAllGames(String pageNumber, String search, String ordering) {
         RestTemplate template = new RestTemplate();
+        List<String> orderingParams = Arrays.asList("released", "added", "created", "rating", "-released", "-added", "-created", "-rating");
+        if (!orderingParams.contains(ordering)) {
+            return new InvalidEndpoint("Not a valid ordering parameter");
+        }
         try {
             ResponseEntity<Games> gamesResponseEntity = template
-                    .exchange(gamesURL + "?page=" + pageNumber + "&search=" + search,
+                    .exchange(gamesURL + "?page=" + pageNumber + "&search=" + search + "&ordering=" + ordering,
                             HttpMethod.GET, null, Games.class);
             return gamesResponseEntity.getBody();
         } catch (HttpClientErrorException e) {
