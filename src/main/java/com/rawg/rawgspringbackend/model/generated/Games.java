@@ -3,7 +3,10 @@ package com.rawg.rawgspringbackend.model.generated;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Games{
+public class Games {
+
+	@JsonProperty("detail")
+	private String detail;
 
 	@JsonProperty("next")
 	private String next;
