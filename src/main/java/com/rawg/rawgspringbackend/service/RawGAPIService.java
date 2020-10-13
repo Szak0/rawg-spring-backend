@@ -20,15 +20,16 @@ public class RawGAPIService {
     @Value("${rawG.games.url}")
     private String gamesURL;
 
-    public Games getAllGames(String pageNumber, String search, String ordering) {
+    public Games getAllGames(String pageNumber, String search, String ordering, String date, String page_size) {
         RestTemplate template = new RestTemplate();
         List<String> orderingParams = Arrays.asList("released", "added", "created", "rating", "-released", "-added", "-created", "-rating");
         if (!orderingParams.contains(ordering)) {
             return new InvalidEndpoint("Not a valid ordering parameter!");
         }
         try {
+            var queryString = gamesURL + "?page=" + pageNumber + "&search=" +  search + "&ordering=" + ordering + "&date=" + date + "&page_size=" + page_size;
             ResponseEntity<Games> gamesResponseEntity = template
-                    .exchange(gamesURL + "?page=" + pageNumber + "&search=" +  search + "&ordering=" + ordering,
+                    .exchange(queryString,
                             HttpMethod.GET, null, Games.class);
             return gamesResponseEntity.getBody();
         } catch (HttpClientErrorException e) {

@@ -17,12 +17,14 @@ public class GamesController {
 
     @GetMapping("/api/games")
     @ResponseBody
-    public Games getAllGames(@RequestParam(required = false) String page, String search, String ordering) {
+    public Games getAllGames(@RequestParam(required = false) String page, String search, String ordering, String date, String page_size) {
         return apiService
                 .getAllGames(
                         Objects.requireNonNullElse(page, "1"),
                         Objects.requireNonNullElse(search, ""),
-                        Objects.requireNonNullElse(ordering, "-rating")
+                        Objects.requireNonNullElse(ordering, "-rating"),
+                        Objects.requireNonNullElse(date, ""),
+                        Objects.requireNonNullElse(page_size, "10")
                 );
     }
 }
