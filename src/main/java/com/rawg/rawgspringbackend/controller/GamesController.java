@@ -22,7 +22,7 @@ public class GamesController {
                 .getAllGames(
                         Objects.requireNonNullElse(page, "1"),
                         Objects.requireNonNullElse(search, ""),
-                        Objects.requireNonNullElse(ordering, "-rating"),
+                        Objects.requireNonNullElse(ordering, ""),
                         Objects.requireNonNullElse(date, ""),
                         Objects.requireNonNullElse(page_size, "10")
                 );
