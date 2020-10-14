@@ -6,6 +6,8 @@ import com.rawg.rawgspringbackend.model.generated.Games;
 import com.rawg.rawgspringbackend.model.generated.exception.InvalidEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.rawg.rawgspringbackend.model.generated.exception.InvalidEndpointGame;
+import com.rawg.rawgspringbackend.model.generated.game.Game;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -47,5 +49,17 @@ public class RawGAPIService {
         } catch (HttpClientErrorException e) {
             return new InvalidEndpoint("Not Found " + e.getStatusCode().value() + " Error");
         }
+    }
+
+    public Game getGameById(String id) {
+            RestTemplate template = new RestTemplate();
+            var queryString = gamesURL + "/" + id;
+            try {
+                    ResponseEntity<Game> gameResponseEntity = template
+                            .exchange(queryString, HttpMethod.GET, null, Game.class);
+                    return gameResponseEntity.getBody();
+            } catch (HttpClientErrorException e) {
+                    return new InvalidEndpointGame("Not Found " + e.getStatusCode().value() + " Error");
+            }
     }
 }
