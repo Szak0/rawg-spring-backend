@@ -1,5 +1,6 @@
 package com.rawg.rawgspringbackend.controller;
 import com.rawg.rawgspringbackend.model.generated.Games;
+import com.rawg.rawgspringbackend.model.generated.game.Game;
 import com.rawg.rawgspringbackend.service.RawGAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,4 +28,12 @@ public class GamesController {
                         Objects.requireNonNullElse(page_size, "10")
                 );
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/api/game/{id}")
+    @ResponseBody
+    public Game getGameById(@PathVariable String id) {
+            return apiService.getGameById(id);
+    }
+
 }
