@@ -11,9 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-import java.util.Arrays;
-import java.util.List;
-
 
 @Service
 @Slf4j
@@ -30,16 +27,19 @@ public class RawGAPIService {
             log.info("Request sent to: " + queryString);
             return gamesResponseEntity.getBody();
         } catch (HttpClientErrorException e) {
-             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     public Game getGameById(String id) {
-        // TODO inject template & checks if template/logger was returned
         RestTemplate template = new RestTemplate();
-        var queryString = gamesURL + "/" + id;
-        ResponseEntity<Game> gameResponseEntity = template
-                .exchange(queryString, HttpMethod.GET, null, Game.class);
-        return gameResponseEntity.getBody();
+        var queryString = "https://api.rawg.io/api/games" + "/" + id;
+        try {
+            ResponseEntity<Game> gameResponseEntity = template
+                    .exchange(queryString, HttpMethod.GET, null, Game.class);
+            return gameResponseEntity.getBody();
+        } catch (HttpClientErrorException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }
