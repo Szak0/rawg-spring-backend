@@ -19,22 +19,10 @@ import java.util.List;
 @Slf4j
 public class RawGAPIService {
 
-    @Value("${rawG.games.url}")
-    private String gamesURL;
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RawGAPIService.class);
 
-    public Games getAllGames(String pageNumber, String search, String ordering, String dates, String page_size) {
-        // TODO inject template & checks if template/logger was returned
+    public Games getAllGames(String queryString) {
         RestTemplate template = new RestTemplate();
-        List<String> orderingParams = Arrays
-                .asList("released", "added", "created", "rating",
-                        "-released", "-added", "-created", "-rating", "");
-        if (!orderingParams.contains(ordering)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        var queryString = gamesURL
-                + "?page=" + pageNumber
-                + "&search=" + search + "&ordering=" + ordering
-                + "&dates=" + dates + "&page_size=" + page_size;
         try {
             ResponseEntity<Games> gamesResponseEntity = template
                     .exchange(queryString,
