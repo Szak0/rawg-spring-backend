@@ -29,7 +29,7 @@ public class GamesController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/api/games")
+    @GetMapping(value = "/api/games", produces = {"application/json"})
     public Games getAllGames(@RequestParam(required = false) String page, String search,
                              String ordering, String dates, String page_size, String tags) {
 
