@@ -24,7 +24,7 @@ public class RawGSpringBackendApplication {
             RawGUser user = RawGUser
                     .builder()
                     .userName("Tomi")
-                    .email("tomi@meno.com")
+                    .email("tomi1@meno.com")
                     .password("tej")
                     .build();
             rawGUserRepository.save(user);

@@ -5,10 +5,11 @@ import com.rawg.rawgspringbackend.model.QueryString;
 import com.rawg.rawgspringbackend.model.error.ErrorInfo;
 import com.rawg.rawgspringbackend.model.generated.Games;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
-import com.rawg.rawgspringbackend.repository.RawGUserRepository;
 import com.rawg.rawgspringbackend.service.RawGAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
@@ -54,7 +55,9 @@ public class GamesController {
         return apiService.getGameById(id);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/register")
+    @ResponseBody
     public RawGUser registerNewUser(@RequestBody RawGUser user) {
         return apiService.registerUser(user);
     }
