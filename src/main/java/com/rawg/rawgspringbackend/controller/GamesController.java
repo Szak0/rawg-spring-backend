@@ -1,9 +1,11 @@
 package com.rawg.rawgspringbackend.controller;
 
+import com.rawg.rawgspringbackend.entity.RawGUser;
 import com.rawg.rawgspringbackend.model.QueryString;
 import com.rawg.rawgspringbackend.model.error.ErrorInfo;
 import com.rawg.rawgspringbackend.model.generated.Games;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
+import com.rawg.rawgspringbackend.repository.RawGUserRepository;
 import com.rawg.rawgspringbackend.service.RawGAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,5 +52,10 @@ public class GamesController {
     @GetMapping("/api/game/{id}")
     public Game getGameById(@PathVariable String id) {
         return apiService.getGameById(id);
+    }
+
+    @PostMapping("/register")
+    public RawGUser registerNewUser(@RequestBody RawGUser user) {
+        return apiService.registerUser(user);
     }
 }
