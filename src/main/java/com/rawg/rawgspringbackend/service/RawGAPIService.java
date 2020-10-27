@@ -1,9 +1,11 @@
 package com.rawg.rawgspringbackend.service;
 
+import com.rawg.rawgspringbackend.entity.RawGUser;
 import com.rawg.rawgspringbackend.model.generated.Games;
+import com.rawg.rawgspringbackend.repository.RawGUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ import org.springframework.web.server.ResponseStatusException;
 public class RawGAPIService {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RawGAPIService.class);
+
+    @Autowired
+    private RawGUserRepository userRepository;
 
     public Games getAllGames(String queryString) {
         RestTemplate template = new RestTemplate();
@@ -41,5 +46,10 @@ public class RawGAPIService {
         } catch (HttpClientErrorException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public RawGUser registerUser(RawGUser user) {
+        userRepository.save(user);
+        return user;
     }
 }
