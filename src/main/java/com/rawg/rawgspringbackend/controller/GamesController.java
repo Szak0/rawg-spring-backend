@@ -15,6 +15,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -62,6 +63,15 @@ public class GamesController {
     public RawGUser registerNewUser(@RequestBody RawGUser user) {
         return apiService.registerUser(user);
     }
+
+//    @CrossOrigin(origins = "*", allowedHeaders = "*")
+//    @PostMapping("/login")
+//    @ResponseBody
+//    public void loginNewUser(@RequestBody RawGUser user) {
+//
+//        List<String> userInformations = apiService.getUserInformations(user);
+//        System.out.println(userInformations);
+//    }
 
 
 }

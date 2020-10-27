@@ -11,5 +11,7 @@ public interface RawGUserRepository extends JpaRepository<RawGUser,Long> {
 
 
 
-    List<String> getRawGUserByEmailOrUserName(String email, String userName);
+    List<RawGUser> getRawGUserByEmailOrUserName(String email, String userName);
+
+//    List<String> getRawGUserByEmailAndPassword(String email, String password);
 }
