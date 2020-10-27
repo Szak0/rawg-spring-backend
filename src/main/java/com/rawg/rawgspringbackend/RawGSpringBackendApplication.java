@@ -17,9 +17,10 @@ public class RawGSpringBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(RawGSpringBackendApplication.class, args);
     }
+
     @Bean
     @Profile("production")
-    public CommandLineRunner init(){
+    public CommandLineRunner init() {
         return args -> {
             RawGUser user = RawGUser
                     .builder()
@@ -27,7 +28,10 @@ public class RawGSpringBackendApplication {
                     .email("tomi1@meno.com")
                     .password("tej")
                     .build();
-            rawGUserRepository.save(user);
+            if (rawGUserRepository.getRawGUserByEmailOrUserName(user.getEmail(), user.getUserName()).size() == 0) {
+                rawGUserRepository.save(user);
+
+            }
         };
     }
 }

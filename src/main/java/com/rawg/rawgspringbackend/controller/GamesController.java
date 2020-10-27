@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Objects;
 
 @RestController
+@RequestMapping
 public class GamesController {
 
     @Autowired
@@ -61,4 +62,6 @@ public class GamesController {
     public RawGUser registerNewUser(@RequestBody RawGUser user) {
         return apiService.registerUser(user);
     }
+
+
 }
