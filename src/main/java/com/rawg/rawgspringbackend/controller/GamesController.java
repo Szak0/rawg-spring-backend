@@ -64,14 +64,14 @@ public class GamesController {
         return apiService.registerUser(user);
     }
 
-//    @CrossOrigin(origins = "*", allowedHeaders = "*")
-//    @PostMapping("/login")
-//    @ResponseBody
-//    public void loginNewUser(@RequestBody RawGUser user) {
-//
-//        List<String> userInformations = apiService.getUserInformations(user);
-//        System.out.println(userInformations);
-//    }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/login")
+    @ResponseBody
+    public void loginNewUser(@RequestBody RawGUser user) {
+
+        List<RawGUser> userInformations = apiService.getUserInformations(user);
+        System.out.println("harmadik");
+    }
 
 
 }

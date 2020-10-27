@@ -26,15 +26,9 @@ public class RawGSpringBackendApplication {
                     .builder()
                     .userName("Tomi")
                     .email("tomi1@meno.com")
-                    .password("tej")
+                    .password("tej123456")
                     .build();
-            System.out.println(rawGUserRepository.getRawGUserByEmailOrUserName(user.getEmail(), user.getUserName()));
-            System.out.println(user.getEmail());
-            System.out.println(user.getPassword());
-            if (rawGUserRepository.getRawGUserByEmailOrUserName(user.getEmail(), user.getUserName()).size() == 0) {
-                rawGUserRepository.save(user);
-
-            }
+            rawGUserRepository.save(user);
         };
     }
 }

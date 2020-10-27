@@ -51,8 +51,6 @@ public class RawGAPIService {
     }
 
     public RawGUser registerUser(RawGUser user) {
-        System.out.println(user.getEmail());
-        System.out.println(user.getUserName());
         if (userRepository.getRawGUserByEmailOrUserName(user.getEmail(),user.getUserName()).size() == 0){
             userRepository.save(user);
             return user;
@@ -62,8 +60,11 @@ public class RawGAPIService {
 
     }
 
-//    public List<String> getUserInformations(RawGUser user) {
-//        return userRepository.getRawGUserByEmailAndPassword(user.getEmail(),user.getPassword());
-//
-//    }
+    public List<RawGUser> getUserInformations(RawGUser user) {
+        List<RawGUser> rawGUserByEmailAndPassword = userRepository.getRawGUserByEmailAndPassword(user.getEmail(), user.getPassword());
+        System.out.println(rawGUserByEmailAndPassword);
+        System.out.println("SZŐKECIGÁNY WAÁOÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁ");
+        return rawGUserByEmailAndPassword;
+
+    }
 }
