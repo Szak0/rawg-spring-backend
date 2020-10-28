@@ -56,7 +56,7 @@ public class GamesController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/register")
+    @PostMapping("api/register")
     @ResponseBody
     public RawGUser registerNewUser(@RequestBody RawGUser user) {
         return apiService.registerUser(user);
