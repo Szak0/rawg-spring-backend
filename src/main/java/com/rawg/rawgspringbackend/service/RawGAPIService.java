@@ -14,6 +14,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class RawGAPIService {
@@ -49,7 +51,20 @@ public class RawGAPIService {
     }
 
     public RawGUser registerUser(RawGUser user) {
-        userRepository.save(user);
-        return user;
+        if (userRepository.getRawGUserByEmailOrUserName(user.getEmail(),user.getUserName()).size() == 0){
+            userRepository.save(user);
+            return user;
+        } else {
+            return user;
+        }
+
+    }
+
+    public List<RawGUser> getUserInformations(RawGUser user) {
+        List<RawGUser> rawGUserByEmailAndPassword = userRepository.getRawGUserByEmailAndPassword(user.getEmail(), user.getPassword());
+        System.out.println(rawGUserByEmailAndPassword);
+        System.out.println("SZŐKECIGÁNY WAÁOÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁ");
+        return rawGUserByEmailAndPassword;
+
     }
 }
