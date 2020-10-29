@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -72,8 +73,14 @@ public class RawGAPIService {
 
     public List<WishlistItem> getWishlist() {
         return wishlistItemRepository.findAll();
-
     }
 
+    public void addWishListItem(WishlistItem item) {
+        wishlistItemRepository.save(item);
+    }
+
+    public Optional<RawGUser> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
 
 }

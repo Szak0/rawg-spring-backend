@@ -54,26 +54,4 @@ public class GamesController {
     public Game getGameById(@PathVariable String id) {
         return apiService.getGameById(id);
     }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("api/register")
-    @ResponseBody
-    public RawGUser registerNewUser(@RequestBody RawGUser user) {
-        return apiService.registerUser(user);
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/login")
-    @ResponseBody
-    public RawGUser loginNewUser(@RequestBody RawGUser user) {
-
-        List<RawGUser> userInformations = apiService.getUserInfo(user);
-        return userInformations.get(0);
-    }
-
-
-
-
-
-
 }
