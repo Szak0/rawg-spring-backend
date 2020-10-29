@@ -1,5 +1,6 @@
 package com.rawg.rawgspringbackend.controller;
 
+import com.rawg.rawgspringbackend.entity.RawGUser;
 import com.rawg.rawgspringbackend.model.QueryString;
 import com.rawg.rawgspringbackend.model.error.ErrorInfo;
 import com.rawg.rawgspringbackend.model.generated.Games;
@@ -12,9 +13,11 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
+@RequestMapping
 public class GamesController {
 
     @Autowired
