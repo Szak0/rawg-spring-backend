@@ -20,6 +20,7 @@ public class WishlistItem {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(unique = true)
     private Long gameId;
     private String name;
     private String background_image;
