@@ -67,10 +67,10 @@ public class GamesController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
     @ResponseBody
-    public void loginNewUser(@RequestBody RawGUser user) {
+    public RawGUser loginNewUser(@RequestBody RawGUser user) {
 
         List<RawGUser> userInformations = apiService.getUserInformations(user);
-        System.out.println("harmadik");
+        return userInformations.get(0);
     }
 
 

@@ -63,7 +63,6 @@ public class RawGAPIService {
     public List<RawGUser> getUserInformations(RawGUser user) {
         List<RawGUser> rawGUserByEmailAndPassword = userRepository.getRawGUserByEmailAndPassword(user.getEmail(), user.getPassword());
         System.out.println(rawGUserByEmailAndPassword);
-        System.out.println("SZŐKECIGÁNY WAÁOÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁÁ");
         return rawGUserByEmailAndPassword;
 
     }
