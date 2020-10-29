@@ -20,8 +20,8 @@ public class WishlistController {
         return rawGAPIService.getWishlist();
     }
 
+    @RequestMapping(value = {"/api/wishlist/add"}, method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/api/wishlist/add")
     public void addToWishlist(WishlistItem item) {
         rawGAPIService.addWishListItem(item);
     }
