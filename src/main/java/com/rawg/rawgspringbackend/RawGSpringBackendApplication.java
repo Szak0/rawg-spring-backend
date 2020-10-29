@@ -11,6 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @SpringBootApplication
 public class RawGSpringBackendApplication {
     @Autowired
@@ -32,17 +35,17 @@ public class RawGSpringBackendApplication {
                     .userName("Tomi")
                     .email("tomi1@meno.com")
                     .password("tej123456")
+                    .registrationDate(LocalDateTime.now())
                     .build();
             rawGUserRepository.save(user);
 
 
             WishlistItem wishlistItem = WishlistItem
                     .builder()
-                    .id(123123123L)
+                    .gameId(1L)
                     .name("ASD")
                     .background_image("startlap.hu")
                     .released("2020")
-                    .author("THe asd product")
                     .rating(5.2)
                     .build();
             wishlistItemRepository.save(wishlistItem);

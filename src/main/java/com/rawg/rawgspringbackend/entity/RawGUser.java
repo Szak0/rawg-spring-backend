@@ -2,10 +2,9 @@ package com.rawg.rawgspringbackend.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,8 +20,12 @@ public class RawGUser {
     private Long Id;
     @Column(nullable = false, unique = true)
     private String userName;
+
     @Column(nullable = false)
     private String password;
+
     @Column(nullable = false, unique = true)
     private String email;
+
+    private LocalDateTime registrationDate;
 }

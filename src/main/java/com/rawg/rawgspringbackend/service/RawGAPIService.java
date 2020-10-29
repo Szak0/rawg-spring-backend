@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +59,7 @@ public class RawGAPIService {
 
     public RawGUser registerUser(RawGUser user) {
         if (userRepository.getRawGUserByEmailOrUserName(user.getEmail(),user.getUserName()).size() == 0){
+            user.setRegistrationDate(LocalDateTime.now());
             userRepository.save(user);
         }
         return user;
