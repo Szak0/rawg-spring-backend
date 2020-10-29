@@ -17,14 +17,13 @@ public class WishlistController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/api/wishlist")
     public List<WishlistItem> gameList() {
-        System.out.println(rawGAPIService.getWishlist());
         return rawGAPIService.getWishlist();
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/api/wishlist")
-    public void gameListSave(WishlistItem wishlistItem) {
-        
+    @PostMapping("/api/wishlist/add")
+    public void addToWishlist(WishlistItem item) {
+        rawGAPIService.addWishListItem(item);
     }
 
 }
