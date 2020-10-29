@@ -1,8 +1,10 @@
 package com.rawg.rawgspringbackend.service;
 
 import com.rawg.rawgspringbackend.entity.RawGUser;
+import com.rawg.rawgspringbackend.entity.WishlistItem;
 import com.rawg.rawgspringbackend.model.generated.Games;
 import com.rawg.rawgspringbackend.repository.RawGUserRepository;
+import com.rawg.rawgspringbackend.repository.WishlistItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class RawGAPIService {
 
     @Autowired
     private RawGUserRepository userRepository;
+
+    @Autowired
+    private WishlistItemRepository wishlistItemRepository;
 
     public Games getAllGames(String queryString) {
         RestTemplate template = new RestTemplate();
@@ -53,17 +58,22 @@ public class RawGAPIService {
     public RawGUser registerUser(RawGUser user) {
         if (userRepository.getRawGUserByEmailOrUserName(user.getEmail(),user.getUserName()).size() == 0){
             userRepository.save(user);
-            return user;
-        } else {
-            return user;
         }
+        return user;
 
     }
 
-    public List<RawGUser> getUserInformations(RawGUser user) {
+    public List<RawGUser> getUserInfo(RawGUser user) {
         List<RawGUser> rawGUserByEmailAndPassword = userRepository.getRawGUserByEmailAndPassword(user.getEmail(), user.getPassword());
         System.out.println(rawGUserByEmailAndPassword);
         return rawGUserByEmailAndPassword;
 
     }
+
+    public List<WishlistItem> getWishlist() {
+        return wishlistItemRepository.findAll();
+
+    }
+
+
 }

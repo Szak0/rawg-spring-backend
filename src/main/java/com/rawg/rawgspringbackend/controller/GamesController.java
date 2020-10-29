@@ -7,9 +7,7 @@ import com.rawg.rawgspringbackend.model.generated.Games;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
 import com.rawg.rawgspringbackend.service.RawGAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
@@ -69,9 +67,13 @@ public class GamesController {
     @ResponseBody
     public RawGUser loginNewUser(@RequestBody RawGUser user) {
 
-        List<RawGUser> userInformations = apiService.getUserInformations(user);
+        List<RawGUser> userInformations = apiService.getUserInfo(user);
         return userInformations.get(0);
     }
+
+
+
+
 
 
 }
