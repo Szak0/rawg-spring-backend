@@ -38,17 +38,6 @@ public class RawGSpringBackendApplication {
                     .registrationDate(LocalDateTime.now())
                     .build();
             rawGUserRepository.save(user);
-
-
-            WishlistItem wishlistItem = WishlistItem
-                    .builder()
-                    .gameId(1L)
-                    .name("ASD")
-                    .background_image("startlap.hu")
-                    .released("2020")
-                    .rating(5.2)
-                    .build();
-            wishlistItemRepository.save(wishlistItem);
         };
     }
 
