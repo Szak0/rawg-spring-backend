@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Getter
@@ -17,12 +18,12 @@ import javax.persistence.Id;
 public class WishlistItem {
 
     @Id
+    @GeneratedValue
     private Long id;
-    @Column(nullable = false)
+    private Long gameId;
     private String name;
     private String background_image;
     private String released;
-    private String author;
     private double rating;
 
 
