@@ -61,9 +61,10 @@ public class RawGAPIService {
         if (userRepository.getRawGUserByEmailOrUserName(user.getEmail(),user.getUserName()).size() == 0){
             user.setRegistrationDate(LocalDateTime.now());
             userRepository.save(user);
+            return user;
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        return user;
-
     }
 
     public List<RawGUser> getUserInfo(RawGUser user) {
