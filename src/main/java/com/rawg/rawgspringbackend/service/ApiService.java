@@ -2,15 +2,17 @@ package com.rawg.rawgspringbackend.service;
 
 import com.rawg.rawgspringbackend.entity.RawGUser;
 import com.rawg.rawgspringbackend.entity.WishlistItem;
+import com.rawg.rawgspringbackend.model.UserCredentials;
 import com.rawg.rawgspringbackend.model.generated.Games;
-import com.rawg.rawgspringbackend.repository.RawGUserRepository;
-import com.rawg.rawgspringbackend.repository.WishlistItemRepository;
+import com.rawg.rawgspringbackend.repository.UserRepository;
+import com.rawg.rawgspringbackend.repository.WishlistRepository;
 import lombok.extern.slf4j.Slf4j;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -22,15 +24,15 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class RawGAPIService {
+public class ApiService {
 
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RawGAPIService.class);
-
-    @Autowired
-    private RawGUserRepository userRepository;
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ApiService.class);
 
     @Autowired
-    private WishlistItemRepository wishlistItemRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private WishlistRepository wishlistRepository;
 
     public Games getAllGames(String queryString) {
         RestTemplate template = new RestTemplate();
@@ -66,19 +68,13 @@ public class RawGAPIService {
             return newUser;
         }
 
-    public List<RawGUser> getUserInfo(RawGUser user) {
-        List<RawGUser> rawGUserByEmailAndPassword = userRepository.getRawGUserByEmailAndPassword(user.getEmail(), user.getPassword());
-        System.out.println(rawGUserByEmailAndPassword);
-        return rawGUserByEmailAndPassword;
-
-    }
 
     public List<WishlistItem> getWishlist() {
-        return wishlistItemRepository.findAll();
+        return wishlistRepository.findAll();
     }
 
     public void addWishListItem(WishlistItem item) {
-        wishlistItemRepository.save(item);
+        wishlistRepository.save(item);
     }
 
     public Optional<RawGUser> getUserById(Long id) {
