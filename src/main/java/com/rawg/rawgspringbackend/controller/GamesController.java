@@ -1,11 +1,10 @@
 package com.rawg.rawgspringbackend.controller;
 
-import com.rawg.rawgspringbackend.entity.RawGUser;
 import com.rawg.rawgspringbackend.model.QueryString;
 import com.rawg.rawgspringbackend.model.error.ErrorInfo;
 import com.rawg.rawgspringbackend.model.generated.Games;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
-import com.rawg.rawgspringbackend.service.RawGAPIService;
+import com.rawg.rawgspringbackend.service.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -21,7 +19,7 @@ import java.util.Objects;
 public class GamesController {
 
     @Autowired
-    private RawGAPIService apiService;
+    private ApiService apiService;
 
     @ExceptionHandler(value = {IllegalArgumentException.class,
             IllegalStateException.class, ResponseStatusException.class,
