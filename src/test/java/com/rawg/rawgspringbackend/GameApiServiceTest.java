@@ -3,7 +3,7 @@ package com.rawg.rawgspringbackend;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
-import com.rawg.rawgspringbackend.service.ApiService;
+import com.rawg.rawgspringbackend.service.GameApiService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.server.ResponseStatusException;
 
-@SpringBootTest(classes = {ApiService.class})
+@SpringBootTest(classes = {GameApiService.class})
 @RunWith(SpringRunner.class)
-public class ApiServiceTest {
+public class GameApiServiceTest {
 
     @Autowired
-    private ApiService service;
+    private GameApiService service;
 
     @Test
     public void testGameByIdReturnValueMatch() {

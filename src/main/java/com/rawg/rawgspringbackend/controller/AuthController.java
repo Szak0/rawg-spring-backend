@@ -1,29 +1,29 @@
 package com.rawg.rawgspringbackend.controller;
 
-import com.rawg.rawgspringbackend.entity.RawGUser;
-import com.rawg.rawgspringbackend.model.UserCredentials;
-import com.rawg.rawgspringbackend.service.ApiService;
+import com.rawg.rawgspringbackend.model.UserCredentialsLogin;
+import com.rawg.rawgspringbackend.model.UserCredentialsRegister;
+import com.rawg.rawgspringbackend.service.UserApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping
 public class AuthController {
+
     @Autowired
-    ApiService apiService;
+    UserApiService userApiService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/api/register")
+    @PostMapping("/auth/register")
     @ResponseBody
-    public RawGUser register(@RequestBody RawGUser user) {
-        return apiService.registerUser(user);
+    public String register(@RequestBody UserCredentialsRegister userCredentialsRegister) {
+        return userApiService.registerUser(userCredentialsRegister);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/api/login")
+    @PostMapping("/auth/login")
     @ResponseBody
-    public String login(@RequestBody UserCredentials user) {
+    public String login(@RequestBody UserCredentialsLogin user) {
         return "Logged in";
     }
 
