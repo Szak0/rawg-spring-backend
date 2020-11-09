@@ -4,7 +4,7 @@ import com.rawg.rawgspringbackend.model.QueryString;
 import com.rawg.rawgspringbackend.model.error.ErrorInfo;
 import com.rawg.rawgspringbackend.model.generated.Games;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
-import com.rawg.rawgspringbackend.service.ApiService;
+import com.rawg.rawgspringbackend.service.GameApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class GamesController {
 
     @Autowired
-    private ApiService apiService;
+    private GameApiService gameApiService;
 
     @ExceptionHandler(value = {IllegalArgumentException.class,
             IllegalStateException.class, ResponseStatusException.class,
@@ -43,13 +43,13 @@ public class GamesController {
                 Objects.requireNonNullElse(page_size, "10"),
                 Objects.requireNonNullElse(tags, ""));
 
-        return apiService
+        return gameApiService
                 .getAllGames(queryString.getQueryString());
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/api/game/{id}")
     public Game getGameById(@PathVariable String id) {
-        return apiService.getGameById(id);
+        return gameApiService.getGameById(id);
     }
 }
