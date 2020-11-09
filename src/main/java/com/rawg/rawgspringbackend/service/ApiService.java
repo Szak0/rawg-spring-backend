@@ -58,14 +58,13 @@ public class RawGAPIService {
     }
 
     public RawGUser registerUser(RawGUser user) {
-        if (userRepository.getRawGUserByEmailOrUserName(user.getEmail(),user.getUserName()).size() == 0){
+        RawGUser newUser = userRepository.getRawGUserByEmailOrUserName(user.getEmail(),user.getUserName())
+                .orElseThrow(() -> new UsernameNotFoundException("Username: " + user.getUserName() + " not found"));
+
             user.setRegistrationDate(LocalDateTime.now());
-            userRepository.save(user);
-            return user;
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            userRepository.save(newUser);
+            return newUser;
         }
-    }
 
     public List<RawGUser> getUserInfo(RawGUser user) {
         List<RawGUser> rawGUserByEmailAndPassword = userRepository.getRawGUserByEmailAndPassword(user.getEmail(), user.getPassword());
