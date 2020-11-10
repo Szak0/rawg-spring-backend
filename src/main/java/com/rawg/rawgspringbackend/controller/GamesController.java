@@ -35,6 +35,7 @@ public class GamesController {
                              String ordering, String dates, String page_size, String tags) {
 
         // todo move this into QueryString.class
+        // todo delete THIS ASAP
         QueryString queryString = new QueryString(
                 Objects.requireNonNullElse(page, "1"),
                 Objects.requireNonNullElse(search, ""),

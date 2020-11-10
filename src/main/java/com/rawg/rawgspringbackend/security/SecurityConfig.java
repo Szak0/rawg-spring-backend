@@ -19,10 +19,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/register").permitAll()
                 .antMatchers("/auth/login").permitAll()
-                .antMatchers("/api/games/**").permitAll()// allowed by anyone
-                .antMatchers(HttpMethod.GET, "/api/user/**").authenticated() // allowed only when signed in
-                .antMatchers(HttpMethod.GET, "/api/wishlist/**").authenticated() // allowed only when signed in
-                .antMatchers(HttpMethod.POST, "/api/wishlist/**").authenticated() // allowed only when signed in
+                .antMatchers("/api/games/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/user/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/api/wishlist/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/wishlist/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/vehicles/**").hasRole("ADMIN") // allowed if signed in with ADMIN role
                 .anyRequest().denyAll(); // anything else is denied
     }
