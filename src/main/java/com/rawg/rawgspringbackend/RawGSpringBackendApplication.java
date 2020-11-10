@@ -33,7 +33,7 @@ public class RawGSpringBackendApplication {
                     .builder()
                     .userName("Admin")
                     .email("tomi1@meno.com")
-                    .password(Pa"tej123456")
+                    .password("tej123456")
                     .registrationDate(LocalDateTime.now())
                     .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
                     .build();
