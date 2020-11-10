@@ -62,22 +62,24 @@ public class GameApiService {
         return wishlistRepository.findAll();
     }
 
-    public void addWishListItemToUser(WishlistItem wishlistItem, RawGUser user) {
-        Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(wishlistItem.getGameId());
+    public void addWishListItemToUser(WishlistItem data, RawGUser user) {
+        Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(data.getGameId());
         if (gameFromRepo.isEmpty()) {
             WishlistItem item = WishlistItem
                     .builder()
-                    .background_image(wishlistItem.getBackground_image())
-                    .name(wishlistItem.getName())
-                    .gameId(wishlistItem.getGameId())
-                    .rating(wishlistItem.getRating())
-                    .released(wishlistItem.getReleased())
+                    .background_image(data.getBackground_image())
+                    .name(data.getName())
+                    .gameId(data.getGameId())
+                    .rating(data.getRating())
+                    .released(data.getReleased())
                     .build();
             wishlistRepository.save(item);
             Set<WishlistItem> likedGames = user.getLikedGames();
-            likedGames.add(wishlistItem);
+            likedGames.add(data);
             user.setLikedGames(likedGames);
-            userRepository.save(user);
+            Set<WishlistItem> likedGameSet = user.getLikedGames();
+            String userEmail = user.getEmail();
+            userRepository.updateUser(likedGameSet, userEmail);
         } else {
 
         }
