@@ -5,12 +5,16 @@ import com.rawg.rawgspringbackend.model.UserCredentialsRegister;
 import com.rawg.rawgspringbackend.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -26,7 +30,7 @@ public class UserApiService {
         passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    public String registerUser(UserCredentialsRegister userCredentialsRegister) {
+    public ResponseEntity registerUser(UserCredentialsRegister userCredentialsRegister) {
         Optional<RawGUser> user = userRepository.findByEmail(userCredentialsRegister.getEmail());
         if (user.isEmpty()) {
             RawGUser newUser = RawGUser
@@ -37,13 +41,16 @@ public class UserApiService {
                     .registrationDate(LocalDateTime.now())
                     .build();
             userRepository.save(newUser);
-            return "Success";
+
+            Map<Object, Object> model = new HashMap<>();
+            model.put("Signed up with: ", userCredentialsRegister.getEmail());
+            return ResponseEntity.ok(model);
         } else {
-            throw new UsernameNotFoundException("Email is already in use: " + userCredentialsRegister.getEmail());
+            throw new BadCredentialsException("Email is already in use!");
         }
     }
 
-    public RawGUser login(RawGUser user) {
+    public RawGUser signIn(RawGUser user) {
         return null;
     }
 

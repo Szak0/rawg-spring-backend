@@ -1,6 +1,5 @@
 package com.rawg.rawgspringbackend.model;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 

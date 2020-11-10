@@ -3,7 +3,6 @@ package com.rawg.rawgspringbackend.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
