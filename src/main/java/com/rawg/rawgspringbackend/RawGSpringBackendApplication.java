@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class RawGSpringBackendApplication {
@@ -30,10 +31,11 @@ public class RawGSpringBackendApplication {
         return args -> {
             RawGUser user = RawGUser
                     .builder()
-                    .userName("Tomi")
+                    .userName("Admin")
                     .email("tomi1@meno.com")
-                    .password("tej123456")
+                    .password(Pa"tej123456")
                     .registrationDate(LocalDateTime.now())
+                    .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
                     .build();
             userRepository.save(user);
         };
