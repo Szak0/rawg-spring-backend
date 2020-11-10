@@ -27,9 +27,9 @@ public class CustomUserDetailsService implements UserDetailsService {
      * Spring will call this code to retrieve a user upon login from the DB.
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        RawGUser user = users.findByUserName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        RawGUser user = users.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email: " + email + " not found"));
 
         return new User(user.getUserName(), user.getPassword(),
                 user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
