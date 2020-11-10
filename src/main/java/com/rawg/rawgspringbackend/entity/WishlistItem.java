@@ -24,8 +24,4 @@ public class WishlistItem {
     private String background_image;
     private String released;
     private double rating;
-
-
-    @ManyToMany
-    private Set<RawGUser> likes;
 }

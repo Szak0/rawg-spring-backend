@@ -65,8 +65,6 @@ public class GameApiService {
     public void addWishListItemToUser(WishlistItem wishlistItem, RawGUser user) {
         Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(wishlistItem.getGameId());
         if (gameFromRepo.isEmpty()) {
-            Set<RawGUser> userLiked = new HashSet<>();
-            userLiked.add(user);
             WishlistItem item = WishlistItem
                     .builder()
                     .background_image(wishlistItem.getBackground_image())
@@ -74,7 +72,6 @@ public class GameApiService {
                     .gameId(wishlistItem.getGameId())
                     .rating(wishlistItem.getRating())
                     .released(wishlistItem.getReleased())
-                    .likes(userLiked)
                     .build();
             wishlistRepository.save(item);
             Set<WishlistItem> likedGames = user.getLikedGames();
