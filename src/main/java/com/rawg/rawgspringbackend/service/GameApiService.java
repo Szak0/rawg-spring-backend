@@ -1,7 +1,9 @@
 package com.rawg.rawgspringbackend.service;
 
+import com.rawg.rawgspringbackend.entity.RawGUser;
 import com.rawg.rawgspringbackend.entity.WishlistItem;
 import com.rawg.rawgspringbackend.model.generated.Games;
+import com.rawg.rawgspringbackend.repository.UserRepository;
 import com.rawg.rawgspringbackend.repository.WishlistRepository;
 import lombok.extern.slf4j.Slf4j;
 import com.rawg.rawgspringbackend.model.generated.game.Game;
@@ -13,7 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -22,6 +28,9 @@ public class GameApiService {
 
     @Autowired
     private WishlistRepository wishlistRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     public Games getAllGames(String queryString) {
@@ -53,8 +62,29 @@ public class GameApiService {
         return wishlistRepository.findAll();
     }
 
-    public void addWishListItem(WishlistItem item) {
-        wishlistRepository.save(item);
+    public void addWishListItemToUser(WishlistItem wishlistItem, RawGUser user) {
+        Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(wishlistItem.getGameId());
+        if (gameFromRepo.isEmpty()) {
+            Set<RawGUser> userLiked = new HashSet<>();
+            userLiked.add(user);
+            WishlistItem item = WishlistItem
+                    .builder()
+                    .background_image(wishlistItem.getBackground_image())
+                    .name(wishlistItem.getName())
+                    .gameId(wishlistItem.getGameId())
+                    .rating(wishlistItem.getRating())
+                    .released(wishlistItem.getReleased())
+                    .likes(userLiked)
+                    .build();
+            wishlistRepository.save(item);
+            Set<WishlistItem> likedGames = user.getLikedGames();
+            likedGames.add(wishlistItem);
+            user.setLikedGames(likedGames);
+            userRepository.save(user);
+        } else {
+
+        }
+
     }
 
 }
