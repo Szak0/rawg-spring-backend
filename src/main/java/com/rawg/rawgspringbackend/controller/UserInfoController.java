@@ -40,4 +40,10 @@ public class UserInfoController {
         model.put("registrationDate", user1.getRegistrationDate());
         return ResponseEntity.ok(model);
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/api/list/users")
+    public  List<RawGUser> allUsers() {
+        return userRepository.findAll();
+    }
 }
