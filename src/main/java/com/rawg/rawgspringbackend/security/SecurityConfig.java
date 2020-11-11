@@ -36,9 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/api/games/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/api/me/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/wishlist/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/wishlist/**").authenticated()
-                .antMatchers(HttpMethod.DELETE, "/vehicles/**").hasRole("ADMIN") // allowed if signed in with ADMIN role
+                .antMatchers(HttpMethod.DELETE, "/vehicles/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/list/users/**").hasRole("ADMIN")
                 .anyRequest().denyAll().and()
                 .addFilterBefore(new JwtTokenFilter(jwtTokenServices), UsernamePasswordAuthenticationFilter.class); // anything else is denied
     }
