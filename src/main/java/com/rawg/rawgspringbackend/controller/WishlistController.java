@@ -5,10 +5,15 @@ import com.rawg.rawgspringbackend.entity.WishlistItem;
 import com.rawg.rawgspringbackend.repository.UserRepository;
 import com.rawg.rawgspringbackend.service.GameApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping
@@ -33,11 +38,18 @@ public class WishlistController {
 
 
     @RequestMapping(value = {"/api/wishlist/add"}, method = RequestMethod.POST)
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public void addToWishlist(WishlistItem item, String userEmail) {
-        RawGUser user = users.findByEmail(userEmail)
-                .orElseThrow(() -> new UsernameNotFoundException("Email: " + userEmail + " not found"));
-        gameApiService.addWishListItemToUser(item, user);
-    }
+    @CrossOrigin(origins = "*")
+    public ResponseEntity addToWishlist(WishlistItem item, String userEmail) {
+        try {
+            RawGUser user = users.findByEmail(userEmail)
+                    .orElseThrow(() -> new UsernameNotFoundException("Email: " + userEmail + " not found"));
+            gameApiService.addWishListItemToUser(item, user);
+            Map<Object, Object> model = new HashMap<>();
+            model.put("Game added to: ", user.getUserName());
+            return ResponseEntity.ok(model);
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException(e.getLocalizedMessage()   );
+        }
 
+    }
 }
