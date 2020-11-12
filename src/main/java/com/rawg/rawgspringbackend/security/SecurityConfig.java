@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic().disable()
+                .httpBasic().and().cors().and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -36,10 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/api/games/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/api/me/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/api/me").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/wishlist/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/wishlist/add").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/wishlist/**").authenticated()
-                .antMatchers(HttpMethod.DELETE, "/vehicles/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/list/users/**").hasRole("ADMIN")
                 .anyRequest().denyAll().and()
                 .addFilterBefore(new JwtTokenFilter(jwtTokenServices), UsernamePasswordAuthenticationFilter.class); // anything else is denied
