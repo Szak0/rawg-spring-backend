@@ -35,6 +35,13 @@ public class RawGUser {
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
-    @ManyToMany
-    private Set<WishlistItem> likedGames;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "rawguser_user_liked_games",
+          joinColumns = { @JoinColumn(name = "rawguser_id") },
+    inverseJoinColumns = { @JoinColumn(name = "user_liked_games_id") })
+    private Set<WishlistItem> userLikedGames;
 }
