@@ -20,13 +20,17 @@ public class WishlistController {
     @Autowired
     UserRepository users;
 
+    @Autowired
+    UserRepository userRepository;
 
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/wishlist")
-    public List<WishlistItem> gameList() {
-        return gameApiService.getWishlist();
+    public Set<WishlistItem> gameList() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<RawGUser> user = userRepository.findByEmail(authentication.getPrincipal().toString());
+        return user.get().getUserLikedGames();
     }
+
 
     @RequestMapping(value = {"/api/wishlist/add"}, method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
