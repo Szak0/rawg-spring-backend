@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +48,10 @@ public class AuthController {
         return userApiService.registerUser(userCredentialsRegister);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
     @PostMapping("/auth/login")
     @ResponseBody
-    public ResponseEntity login(@RequestBody UserCredentialsLogin loginData) {
+    public ResponseEntity login(@RequestBody UserCredentialsLogin loginData, HttpServletResponse response) {
         try {
             String userEmail = loginData.getEmail();
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, loginData.getPassword()));
@@ -57,9 +59,8 @@ public class AuthController {
                     .stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
-
             String token = jwtTokenServices.createToken(userEmail, roles);
-
+            getSessionCookie(response, token);
             Map<Object, Object> model = new HashMap<>();
             model.put("userEmail", userEmail);
             model.put("roles", roles);
@@ -68,6 +69,15 @@ public class AuthController {
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid e-mail/password supplied");
         }
+    }
+
+    private void getSessionCookie(HttpServletResponse response, String token) {
+        Cookie tokenCookie = new Cookie("token", token);
+        int expiry = 7 * 24 * 60 * 60;
+        tokenCookie.setMaxAge(expiry);
+        //tokenCookie.setSecure(true);
+        tokenCookie.setHttpOnly(true);
+        response.addCookie(tokenCookie);
     }
 
     @ExceptionHandler(value = {BadCredentialsException.class,
