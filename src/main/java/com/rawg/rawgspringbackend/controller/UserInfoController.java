@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,15 +26,13 @@ public class UserInfoController {
     @Autowired
     UserRepository userRepository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/me")
-    public ResponseEntity currentUser() {
+    public ResponseEntity currentUser(HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
         Map<Object, Object> model = new HashMap<>();
         Optional<RawGUser> user = userRepository.findByEmail(authentication.getPrincipal().toString());
-        RawGUser user1 = user.orElse(null);
-        assert user1 != null;
+        RawGUser user1 = user.get();
         model.put("role", user1.getRoles());
         model.put("id", user1.getId());
         model.put("userName", user1.getUserName());
@@ -41,7 +41,7 @@ public class UserInfoController {
         return ResponseEntity.ok(model);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/list/users")
     public  List<RawGUser> allUsers() {
         return userRepository.findAll();
