@@ -42,20 +42,11 @@ public class UserApiService {
                     .roles(Arrays.asList("ROLE_USER"))
                     .build();
             userRepository.save(newUser);
-
             Map<Object, Object> model = new HashMap<>();
             model.put("Signed up with: ", userCredentialsRegister.getEmail());
             return ResponseEntity.ok(model);
         } else {
             throw new BadCredentialsException("Email is already in use!");
         }
-    }
-
-    public RawGUser signIn(RawGUser user) {
-        return null;
-    }
-
-    public Optional<RawGUser> getUserById(Long id) {
-        return userRepository.findById(id);
     }
 }
