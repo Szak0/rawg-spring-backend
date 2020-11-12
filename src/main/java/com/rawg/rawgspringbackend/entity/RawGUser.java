@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,4 +30,18 @@ public class RawGUser {
     private String email;
 
     private LocalDateTime registrationDate;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "rawguser_user_liked_games",
+          joinColumns = { @JoinColumn(name = "rawguser_id") },
+    inverseJoinColumns = { @JoinColumn(name = "user_liked_games_id") })
+    private Set<WishlistItem> userLikedGames;
 }

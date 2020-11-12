@@ -7,12 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -39,22 +39,14 @@ public class UserApiService {
                     .userName(userCredentialsRegister.getUserName())
                     .password(passwordEncoder.encode(userCredentialsRegister.getPassword()))
                     .registrationDate(LocalDateTime.now())
+                    .roles(Arrays.asList("ROLE_USER"))
                     .build();
             userRepository.save(newUser);
-
             Map<Object, Object> model = new HashMap<>();
             model.put("Signed up with: ", userCredentialsRegister.getEmail());
             return ResponseEntity.ok(model);
         } else {
             throw new BadCredentialsException("Email is already in use!");
         }
-    }
-
-    public RawGUser signIn(RawGUser user) {
-        return null;
-    }
-
-    public Optional<RawGUser> getUserById(Long id) {
-        return userRepository.findById(id);
     }
 }

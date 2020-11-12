@@ -29,7 +29,7 @@ public class GamesController {
         return new ErrorInfo(e);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/api/games", produces = {"application/json"})
     public Games getAllGames(@RequestParam(required = false) String page, String search,
                              String ordering, String dates, String page_size, String tags) {
@@ -48,7 +48,7 @@ public class GamesController {
                 .getAllGames(queryString.getQueryString());
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/game/{id}")
     public Game getGameById(@PathVariable String id) {
         return gameApiService.getGameById(id);
