@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 
 
 @Service
@@ -62,26 +62,27 @@ public class GameApiService {
         return wishlistRepository.findAll();
     }
 
-    public void addWishListItemToUser(WishlistItem data, RawGUser user) {
-        Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(data.getGameId());
+    public void addWishListItemToUser(WishlistItem game, RawGUser user) {
+        Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(game.getGameId());
         if (gameFromRepo.isEmpty()) {
             WishlistItem item = WishlistItem
                     .builder()
-                    .background_image(data.getBackground_image())
-                    .name(data.getName())
-                    .gameId(data.getGameId())
-                    .rating(data.getRating())
-                    .released(data.getReleased())
+                    .background_image(game.getBackground_image())
+                    .name(game.getName())
+                    .gameId(game.getGameId())
+                    .rating(game.getRating())
+                    .released(game.getReleased())
+                    .usersWhoLiked(new HashSet<>())
                     .build();
-            wishlistRepository.save(item);
-            Set<WishlistItem> likedGames = user.getLikedGames();
-            likedGames.add(data);
-            user.setLikedGames(likedGames);
-            Set<WishlistItem> likedGameSet = user.getLikedGames();
-            String userEmail = user.getEmail();
-            userRepository.updateUser(likedGameSet, userEmail);
-        } else {
 
+            user.getUserLikedGames().add(item);
+            item.getUsersWhoLiked().add(user);
+            wishlistRepository.save(item);
+
+        } else {
+            user.getUserLikedGames().add(gameFromRepo.get());
+            gameFromRepo.get().getUsersWhoLiked().add(user);
+            wishlistRepository.save(gameFromRepo.get());
         }
 
     }
