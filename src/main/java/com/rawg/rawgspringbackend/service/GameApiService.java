@@ -3,10 +3,10 @@ package com.rawg.rawgspringbackend.service;
 import com.rawg.rawgspringbackend.entity.RawGUser;
 import com.rawg.rawgspringbackend.entity.WishlistItem;
 import com.rawg.rawgspringbackend.model.generated.Games;
+import com.rawg.rawgspringbackend.model.generated.game.Game;
 import com.rawg.rawgspringbackend.repository.UserRepository;
 import com.rawg.rawgspringbackend.repository.WishlistRepository;
 import lombok.extern.slf4j.Slf4j;
-import com.rawg.rawgspringbackend.model.generated.game.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-
 
 
 @Service
@@ -62,21 +61,12 @@ public class GameApiService {
         return wishlistRepository.findAll();
     }
 
-    public void addWishListItemToUser(Long gameID, String gameName, String background_image, String released, double rating, RawGUser user) {
-        Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(gameID);
+    public void addWishListItemToUser(WishlistItem item, RawGUser user) {
+        Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(item.getGameId());
         if (gameFromRepo.isEmpty()) {
-            WishlistItem item = WishlistItem
-                    .builder()
-                    .background_image(background_image)
-                    .name(gameName)
-                    .gameId(gameID)
-                    .rating(rating)
-                    .released(released)
-                    .usersWhoLiked(new HashSet<>())
-                    .build();
-
-            user.getUserLikedGames().add(item);
+            item.setUsersWhoLiked(new HashSet<>());
             item.getUsersWhoLiked().add(user);
+            user.getUserLikedGames().add(item);
             wishlistRepository.save(item);
 
         } else {
