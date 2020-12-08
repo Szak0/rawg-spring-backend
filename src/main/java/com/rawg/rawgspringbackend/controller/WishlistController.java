@@ -41,17 +41,11 @@ public class WishlistController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping({"/api/wishlist/add"})
-    public ResponseEntity addToWishlist(@RequestBody Map<String,String> body) {
+    public ResponseEntity addToWishlist(@RequestBody WishlistItem item) {
         try {
-            RawGUser user = users.findByEmail(body.get("userEmail"))
-                    .orElseThrow(() -> new UsernameNotFoundException("Email: " + body.get("userEmail") + " not found"));
-            gameApiService.addWishListItemToUser(
-                    Long.parseLong(body.get("gameId")),
-                    body.get("name"),
-                    body.get("background_image"),
-                    body.get("released"),
-                    Double.parseDouble(body.get("rating")),
-                    user);
+            RawGUser user = users.findByEmail(item.getUserEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException("Email: " + item.getUserEmail() + " not found"));
+            gameApiService.addWishListItemToUser(item,user);
             Map<Object, Object> model = new HashMap<>();
             model.put("Game added to: ", user.getUserName());
             return ResponseEntity.ok(model);
