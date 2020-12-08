@@ -13,7 +13,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping
@@ -36,20 +39,32 @@ public class WishlistController {
         return user.get().getUserLikedGames();
     }
 
-
-    @RequestMapping(value = {"/api/wishlist/add"}, method = RequestMethod.POST)
-    @CrossOrigin(origins = "*")
-    public ResponseEntity addToWishlist(WishlistItem item, String userEmail) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping({"/api/wishlist/add"})
+    public ResponseEntity addToWishlist(@RequestBody Map<String,String> body) {
         try {
-            RawGUser user = users.findByEmail(userEmail)
-                    .orElseThrow(() -> new UsernameNotFoundException("Email: " + userEmail + " not found"));
-            gameApiService.addWishListItemToUser(item, user);
+            RawGUser user = users.findByEmail(body.get("userEmail"))
+                    .orElseThrow(() -> new UsernameNotFoundException("Email: " + body.get("userEmail") + " not found"));
+            gameApiService.addWishListItemToUser(
+                    Long.parseLong(body.get("gameId")),
+                    body.get("name"),
+                    body.get("background_image"),
+                    body.get("released"),
+                    Double.parseDouble(body.get("rating")),
+                    user);
             Map<Object, Object> model = new HashMap<>();
             model.put("Game added to: ", user.getUserName());
             return ResponseEntity.ok(model);
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException(e.getLocalizedMessage()   );
+            throw new BadCredentialsException(e.getLocalizedMessage());
         }
 
     }
+
+//    @RequestParam(value = "gameId") Long gameId,
+//    @RequestParam(value = "name") String gameName,
+//    @RequestParam(value = "background_image") String background_image,
+//    @RequestParam(value = "released") String released,
+//    @RequestParam(value = "rating") Double rating,
+//    @RequestParam(value = "userEmail") String userEmail
 }

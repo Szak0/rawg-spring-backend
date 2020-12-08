@@ -62,16 +62,16 @@ public class GameApiService {
         return wishlistRepository.findAll();
     }
 
-    public void addWishListItemToUser(WishlistItem game, RawGUser user) {
-        Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(game.getGameId());
+    public void addWishListItemToUser(Long gameID, String gameName, String background_image, String released, double rating, RawGUser user) {
+        Optional<WishlistItem> gameFromRepo = wishlistRepository.findByGameId(gameID);
         if (gameFromRepo.isEmpty()) {
             WishlistItem item = WishlistItem
                     .builder()
-                    .background_image(game.getBackground_image())
-                    .name(game.getName())
-                    .gameId(game.getGameId())
-                    .rating(game.getRating())
-                    .released(game.getReleased())
+                    .background_image(background_image)
+                    .name(gameName)
+                    .gameId(gameID)
+                    .rating(rating)
+                    .released(released)
                     .usersWhoLiked(new HashSet<>())
                     .build();
 

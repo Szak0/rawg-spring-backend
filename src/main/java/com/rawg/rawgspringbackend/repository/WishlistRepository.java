@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface WishlistRepository extends JpaRepository<WishlistItem, Long> {
     Optional<WishlistItem> findByGameId(Long id);
+
 }

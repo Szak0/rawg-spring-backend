@@ -29,6 +29,8 @@ public class WishlistItem {
     private String background_image;
     private String released;
     private double rating;
+    @Transient
+    private String userEmail;
 
 
 
