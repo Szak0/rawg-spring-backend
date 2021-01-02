@@ -19,6 +19,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +49,7 @@ public class AuthController {
         return userApiService.registerUser(userCredentialsRegister);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
     @PostMapping("/auth/login")
     @ResponseBody
     public ResponseEntity login(@RequestBody UserCredentialsLogin loginData, HttpServletResponse response) {
@@ -77,6 +78,7 @@ public class AuthController {
         tokenCookie.setMaxAge(expiry);
         //tokenCookie.setSecure(true);
         tokenCookie.setHttpOnly(true);
+        tokenCookie.setPath("/");
         response.addCookie(tokenCookie);
     }
 

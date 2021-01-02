@@ -31,7 +31,7 @@ public class WishlistController {
     @Autowired
     UserRepository userRepository;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @GetMapping("/api/wishlist")
     public Set<WishlistItem> gameList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -39,7 +39,7 @@ public class WishlistController {
         return user.get().getUserLikedGames();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PostMapping({"/api/wishlist/add"})
     public ResponseEntity addToWishlist(@RequestBody WishlistItem item) {
         try {
