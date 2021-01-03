@@ -77,7 +77,30 @@ public class AuthController {
         Cookie tokenCookie = new Cookie("token", token);
         int expiry = 7 * 24 * 60 * 60;
         tokenCookie.setMaxAge(expiry);
-        //tokenCookie.setSecure(true);
+        tokenCookie.setSecure(false);
+        tokenCookie.setHttpOnly(true);
+        tokenCookie.setPath("/");
+        response.addCookie(tokenCookie);
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+    @GetMapping("/auth/logout")
+    @ResponseBody
+    public ResponseEntity logOut(HttpServletResponse response, HttpServletRequest request) {
+        try {
+            removeTokenFromResponse(response);
+            Map<Object, Object> model = new HashMap<>();
+            model.put("Logout", "Successful");
+            return ResponseEntity.ok(model);
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("You have not logged in.");
+        }
+    }
+
+    private void removeTokenFromResponse(HttpServletResponse response) {
+        Cookie tokenCookie = new Cookie("token", null);
+        tokenCookie.setMaxAge(0);
         tokenCookie.setHttpOnly(true);
         tokenCookie.setPath("/");
         response.addCookie(tokenCookie);
