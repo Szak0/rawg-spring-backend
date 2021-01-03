@@ -26,7 +26,7 @@ public class UserInfoController {
     @Autowired
     UserRepository userRepository;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @GetMapping("/api/me")
     public ResponseEntity currentUser(HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -41,7 +41,7 @@ public class UserInfoController {
         return ResponseEntity.ok(model);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @GetMapping("/api/list/users")
     public  List<RawGUser> allUsers() {
         return userRepository.findAll();

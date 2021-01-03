@@ -51,9 +51,10 @@ public class JwtTokenServices {
     }
 
     String getTokenFromRequest(HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+        log.info(req.getHeader("Cookie"));
+        String bearerToken = req.getHeader("Cookie");
+        if (bearerToken != null && bearerToken.startsWith("token=")) {
+            return bearerToken.substring(6, bearerToken.length());
         }
         return null;
     }

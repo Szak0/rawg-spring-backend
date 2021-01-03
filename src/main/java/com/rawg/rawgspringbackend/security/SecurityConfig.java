@@ -27,21 +27,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic().and().cors().and()
+                .cors().and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/register").permitAll()
                 .antMatchers("/auth/login").permitAll()
+                .antMatchers("/auth/logout").permitAll()
                 .antMatchers("/api/games/**").permitAll()
+                .antMatchers("/api/game/**").permitAll()
+                .antMatchers("/picture/**").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui",
+                        "/swagger-resources", "/swagger-resources/configuration/security",
+                        "/swagger-ui.html/**", "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/me").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/wishlist/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/wishlist/add").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/wishlist/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/list/users/**").hasRole("ADMIN")
-                .anyRequest().denyAll().and()
-                .addFilterBefore(new JwtTokenFilter(jwtTokenServices), UsernamePasswordAuthenticationFilter.class); // anything else is denied
+                .anyRequest().denyAll()
+                .and()
+                .addFilterBefore(new JwtTokenFilter(jwtTokenServices),
+                        UsernamePasswordAuthenticationFilter.class); // anything else is denied
     }
 }
