@@ -23,11 +23,7 @@ public class QueryString {
                        String ordering, String dates, String page_size, String tags) {
         this.pageNumber = pageNumber;
         this.searchString = searchString;
-        if (!orderingParams.contains(ordering)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        } else {
-            this.ordering = ordering;
-        }
+        this.ordering = ordering;
         this.dates = dates;
         this.page_size = page_size;
         this.tags = tags;
@@ -36,19 +32,17 @@ public class QueryString {
 
     public String getQueryString() {
         String gamesURL = "https://api.rawg.io/api/games";
+        String fullPath = "?page=" + pageNumber
+                + "&search=" + searchString + "&ordering=" + ordering
+                + "&dates=" + dates + "&page_size=" + page_size;
 
         if (!tags.equals("")) {
             return gamesURL
-                    + "?page=" + pageNumber
-                    + "&search=" + searchString + "&ordering=" + ordering
-                    + "&dates=" + dates + "&page_size=" + page_size + "&tags=" + tags;
+                    + fullPath + "&tags=" + tags;
         } else {
             return gamesURL
-                    + "?page=" + pageNumber
-                    + "&search=" + searchString + "&ordering=" + ordering
-                    + "&dates=" + dates + "&page_size=" + page_size;
+                    + fullPath;
         }
     }
-
 
 }
